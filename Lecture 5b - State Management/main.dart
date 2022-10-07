@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'controller/add_friend.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,6 +18,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'State Management Home Page'),
+      routes: {
+        '/addFriend' : (context) => AddFriendWidget(title: "Add Friend"),
+      },
     );
   }
 }
