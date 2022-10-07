@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lec5b/model/friends.dart';
+import 'package:provider/provider.dart';
 
 class AddFriendWidget extends StatefulWidget {
   AddFriendWidget({Key? key, this.title}) : super(key: key);
@@ -21,6 +22,9 @@ class _AddFriendWidgetState extends State<AddFriendWidget> {
 
   @override
   Widget build(BuildContext context) {
+    FriendListBLoC friendListBLoC = Provider
+                                    .of<FriendListBLoC>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title!),
@@ -66,6 +70,7 @@ class _AddFriendWidgetState extends State<AddFriendWidget> {
                     lastName: lastName,
                     email: email,
                   );
+                  friendListBLoC.addFriend(newFriend);
                   Navigator.of(context).pop(newFriend);
                 },
                 child: Text("Save", style: style,)

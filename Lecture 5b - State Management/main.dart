@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:lec5b/model/friends.dart';
+import 'package:lec5b/views/friend_list.dart';
+import 'package:provider/provider.dart';
 
 import 'controller/add_friend.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => FriendListBLoC()),
+    ],
+    child: MyApp(),
+    )
+  );
+
+
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text(widget.title),
       ),
-      //body: FriendListWidget(),
+      body: FriendListWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddFriendWidget,
         tooltip: 'Increment',

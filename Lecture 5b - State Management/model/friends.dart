@@ -13,7 +13,20 @@ class Friend{
 }
 
 class FriendListBLoC with ChangeNotifier{
-  List<Friend> _friends = [];
+  List<Friend> _friends = [
+    Friend(email: "michael.miljaonvic@uoit.ca",
+        firstName: "Michael",
+      lastName: "Miljanovic"
+    ),
+    Friend(email: "Randy.Fortier@uoit.ca",
+        firstName: "Randy",
+        lastName: "Fortier"
+    ),
+    Friend(email: "Jeremy.Bradbury@uoit.ca",
+        firstName: "Jeremy",
+        lastName: "Bradbury"
+    ),
+  ];
 
   List<Friend> get friends => _friends;
 

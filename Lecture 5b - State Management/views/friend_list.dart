@@ -16,7 +16,9 @@ class FriendListWidget extends StatelessWidget {
         itemBuilder: (context, index){
           return Container(
             padding: EdgeInsets.all(10.0),
-            child: Text("${friendListBLoC.friends[index]}"),
+            child: Text("${friendListBLoC.friends[index]}",
+            style: TextStyle(fontSize: 30),
+            ),
           );
         }
     );
