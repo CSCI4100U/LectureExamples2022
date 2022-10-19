@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
+import 'notifications.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -36,7 +38,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
 
-  //final _notifications = Notifications();
+  final _notifications = Notifications();
 
   //Title: name of the notification (topmost part)
   //Body: full text of the notification
@@ -48,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     tz.initializeTimeZones();
+    _notifications.init();
 
     return Scaffold(
       appBar: AppBar(
@@ -69,11 +72,85 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+      body: Builder(
+        builder: _formBuilder,
+      ),
+    );
+  }
+
+  Widget _formBuilder(context){
+    return Form(key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "Title",
+            ),
+            style: TextStyle(fontSize: 30),
+            onChanged: (value){
+              title = value;
+            },
+          ),
+
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "Body",
+            ),
+            style: TextStyle(fontSize: 30),
+            onChanged: (value){
+              body = value;
+            },
+          ),
+
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "Payload",
+            ),
+            style: TextStyle(fontSize: 30),
+            onChanged: (value){
+              payload = value;
+            },
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: (){
+                    //send a notification now using notification class
+                  },
+                  child: Text("Now",
+                    style: TextStyle(fontSize: 30),
+                  ),
+              ),
+              ElevatedButton(
+                onPressed: (){
+                  //send a notification later using notification class
+                  var snackBar = SnackBar(
+                      content: Text("Notification in 3 seconds",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+                child: Text("Later",
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+
+
+            ],
+          ),
+
+        ],
+      ),
     );
   }
 
   void _notificationNow() async{
-
+    _notifications.sendNotificationNow(title!,
+        body!, payload!);
   }
 
   Future _notificationLater() async{
