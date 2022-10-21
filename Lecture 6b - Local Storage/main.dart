@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lec6b/todo.dart';
+import 'package:lec6b/todo_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +33,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   var _todoItem;
+  var _lastInsertedId = 0;
+  var _model = TodoModel();
+  var _replaceId;
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +48,54 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              decoration: InputDecoration(
+                labelText: "Id Number"
+              ),
+              style: TextStyle(fontSize: 30),
+              onChanged: (value){
+                _replaceId = int.tryParse(value);
+                },
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  labelText: "Todo Item"
+              ),
               style: TextStyle(fontSize: 30),
               onChanged: (value){
                 _todoItem = value;
               },
             ),
+            ElevatedButton(
+                onPressed: _readTodos,
+                child: Text("Read",
+                  style: TextStyle(fontSize: 30),
+                ),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: _addTodo,
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  Future _addTodo() async{
+    Todo todo = Todo(item: _todoItem);
+    if (_replaceId != null){
+      todo.id = _replaceId;
+    }
+    _lastInsertedId = await _model.insertTodo(todo);
+    print("Todo Inserted: $_lastInsertedId, ${todo.toString()}");
+  }
+
+  Future _readTodos() async{
+    List todos = await _model.getAllTodos();
+    print('');
+    print("Todos:");
+    for (Todo todo in todos){
+      print(todo);
+    }
   }
 }
