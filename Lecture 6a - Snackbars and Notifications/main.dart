@@ -117,23 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                  onPressed: (){
-                    //send a notification now using notification class
-                  },
+                  onPressed: _notificationNow,
                   child: Text("Now",
                     style: TextStyle(fontSize: 30),
                   ),
               ),
               ElevatedButton(
-                onPressed: (){
-                  //send a notification later using notification class
-                  var snackBar = SnackBar(
-                      content: Text("Notification in 3 seconds",
-                        style: TextStyle(fontSize: 30),
-                      ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
+                onPressed: _notificationLater,
                 child: Text("Later",
                   style: TextStyle(fontSize: 30),
                 ),
@@ -154,10 +144,29 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future _notificationLater() async{
+    var when = tz.TZDateTime.now(tz.local)
+        .add(Duration(seconds: 3));
+
+    await _notifications.sendNotificationLater(
+        title!, body!, payload!, when);
+
+    var snackBar = SnackBar(
+      content: Text("Notification in 3 seconds",
+        style: TextStyle(fontSize: 30),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
   }
 
   Future _showPendingNotifications() async{
+    var pendingNotificationRequests
+    = await _notifications.getPendingNotificationRequests();
+
+    print("Pending Notifications:");
+    for (var pendNot in pendingNotificationRequests){
+      print("${pendNot.id} / ${pendNot.title} / ${pendNot.body}");
+    }
 
   }
 

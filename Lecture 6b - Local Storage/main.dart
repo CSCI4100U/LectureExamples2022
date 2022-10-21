@@ -71,6 +71,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(fontSize: 30),
                 ),
             ),
+            ElevatedButton(
+              onPressed: _updateTodo,
+              child: Text("Update",
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _deleteTodo,
+              child: Text("Delete",
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _getTodo,
+              child: Text("Search",
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
           ],
         ),
       ),
@@ -98,4 +116,21 @@ class _MyHomePageState extends State<MyHomePage> {
       print(todo);
     }
   }
+
+  Future _updateTodo() async{
+    Todo todo = Todo(item: _todoItem);
+    todo.id = _lastInsertedId;
+    _model.updateTodo(todo);
+  }
+
+  void _deleteTodo(){
+    _model.deleteTodoWithId(_replaceId);
+  }
+
+  Future _getTodo() async{
+    Todo todo = await _model.getTodoWithId(_replaceId);
+    print('');
+    print(todo.toString());
+  }
+
 }

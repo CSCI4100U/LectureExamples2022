@@ -35,7 +35,10 @@ class Notifications{
       iOS: initializationSettingsIOS
     );
 
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    _flutterLocalNotificationsPlugin
+        .initialize(initializationSettings,
+    onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+    );
 
     var androidChannelInfo = AndroidNotificationDetails(channelId,
         channelName, channelDescription: channelDescription);
@@ -56,6 +59,34 @@ class Notifications{
         body,
         _platformChannelInfo,
     payload: payload);
+  }
+
+  sendNotificationLater(String title,
+      String body, String payload, TZDateTime when){
+    return _flutterLocalNotificationsPlugin.zonedSchedule(
+        _notificationID++,
+        title,
+        body,
+        when,
+        _platformChannelInfo!,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+      payload: payload,
+    );
+  }
+
+  Future<List<PendingNotificationRequest>>
+  getPendingNotificationRequests() async{
+    return _flutterLocalNotificationsPlugin.pendingNotificationRequests();
+  }
+
+  Future onDidReceiveNotificationResponse
+      (NotificationResponse notificationResponse) async{
+    if (notificationResponse != null){
+      print("NotificationResponse::payload = "
+          "${notificationResponse.payload}");
+    }
   }
 
   _requestIOSPermission(){
