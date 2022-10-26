@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:lec7a/productList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,13 @@ class MyApp extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.done){
             print ("Successfully connected to Firebase");
-            return MaterialApp();
+            return MaterialApp(
+              title: "Cloud Storage",
+              theme: ThemeData(
+                primarySwatch: Colors.blue
+              ),
+              home: ProductList(title: "Cloud Storage"),
+            );
           }
           else{
             return CircularProgressIndicator();
