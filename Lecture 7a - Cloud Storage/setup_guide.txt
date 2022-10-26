@@ -5,8 +5,9 @@ Setup Files
 
 
 Pubspec.yaml
-firebase_core:
-cloud_firestore:
+dependencies:
+  firebase_core:
+  cloud_firestore:
 
 build.gradle(project)
 dependencies {
