@@ -19,6 +19,7 @@ class _ProductListState extends State<ProductList> {
       appBar: AppBar(
         title: Text(widget.title!),
       ),
+      body: _buildProductList(context),
       floatingActionButton: FloatingActionButton(
         onPressed: _addToDb,
         tooltip: "Add",
@@ -27,12 +28,53 @@ class _ProductListState extends State<ProductList> {
     );
   }
 
+  Future getProducts() async{
+    print("Getting the products...");
+    return await FirebaseFirestore.instance.collection('products').get();
+  }
+
+  Widget _buildProduct(BuildContext context, DocumentSnapshot productData){
+    final product = Product.fromMap(
+        productData.data(),
+        reference: productData.reference);
+    return GestureDetector(
+      child: ListTile(
+        title: Text(product.name!),
+        subtitle: Text(product.type!),
+        trailing: Text(product.cost!.toString()),
+      ),
+      onLongPress: (){
+        //todo: delete
+      },
+    );
+  }
+
+  Widget _buildProductList(BuildContext context){
+    return FutureBuilder(
+        future: getProducts(),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          print("Snapshot: $snapshot");
+          if (!snapshot.hasData){
+            print("Data is missing from BuildProductList");
+            return CircularProgressIndicator();
+          }
+          print("Found data for BuildProductList");
+          return ListView(
+            padding: EdgeInsets.all(16),
+            children: snapshot.data.docs.map<Widget>( (document)
+              => _buildProduct(context, document)
+            ).toList(),
+          );
+        }
+    );
+  }
+
   Future _addToDb() async{
     print("Adding a new entry...");
     final data = <String,Object?>{
-      "name": "beanie",
+      "name": "hoodie",
       "type": "clothing",
-      "cost": 5.00
+      "cost": 40.00
     };
     await
     FirebaseFirestore.instance.collection('products').doc().set(data);
