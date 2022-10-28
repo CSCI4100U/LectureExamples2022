@@ -68,7 +68,28 @@ class _TodoListState extends State<TodoList> {
         ],
       ),
       body: _createTodosList(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: httppush,
+      ),
     );
+  }
+
+  Future httppush() async{
+    var response = await http.post(
+        Uri.parse('https://jsonplaceholder.typicode.com/todos'),
+      headers: <String,String> {
+          'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(<String,dynamic> {
+        'title': 'sample text',
+        'userId': 420,
+        'completed': true
+      }),
+    );
+    setState(() {
+      _todos.add(Todo.fromMap(jsonDecode(response.body)));
+    });
   }
 
   Widget _createTodosList(){
@@ -76,6 +97,7 @@ class _TodoListState extends State<TodoList> {
       return CircularProgressIndicator();
     }
     return ListView.builder(
+        itemCount: _todos.length,
         itemBuilder: (BuildContext context, int index){
           return ListTile(
             title: Text(_todos[index].title!),
