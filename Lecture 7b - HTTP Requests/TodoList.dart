@@ -27,18 +27,69 @@ class _TodoListState extends State<TodoList> {
     var response = await
         http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos'));
     if (response.statusCode == 200){
-      _todos = [];
-      List todo_items = jsonDecode(response.body);
-      for (var item in todo_items){
-        _todos.add(Todo.fromMap(item)
-        );
-        print(item);
-      }
+      setState(() {
+        _todos = [];
+        List todo_items = jsonDecode(response.body);
+        for (var item in todo_items){
+          _todos.add(Todo.fromMap(item)
+          );
+          //print(item);
+        }
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title!),
+        actions: [
+          IconButton(
+          onPressed: (){
+            List<Todo> newTodos = [];
+            for (var todo in _todos){
+              if (!todo.completed!){
+                newTodos.add(todo);
+              } else{
+                http.delete(
+                    Uri.parse(
+                'https://jsonplaceholder.typicode.com/todos/${todo.id}'
+                    )
+                );
+              }
+              setState(() {
+                _todos = newTodos;
+              });
+            }
+          },
+          icon: Icon(Icons.delete)
+          ),
+        ],
+      ),
+      body: _createTodosList(),
+    );
+  }
+
+  Widget _createTodosList(){
+    if (_todos.length == 0){
+      return CircularProgressIndicator();
+    }
+    return ListView.builder(
+        itemBuilder: (BuildContext context, int index){
+          return ListTile(
+            title: Text(_todos[index].title!),
+            subtitle: Text(_todos[index].userId.toString()),
+            leading: Checkbox(
+              value: _todos[index].completed,
+              onChanged: (value){
+                setState(() {
+                  _todos[index].completed = value;
+                });
+              },
+            ),
+          );
+        }
+    );
   }
 }
