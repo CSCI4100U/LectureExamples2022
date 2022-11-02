@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'frequency_chart.dart';
 import 'grade.dart';
 
 class GradesTable extends StatefulWidget {
@@ -62,6 +63,16 @@ class _GradesTableState extends State<GradesTable> {
                 });
               },
               icon: Icon(Icons.delete)
+          ),
+          IconButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => FrequencyChart(
+                      grades: _grades
+                    ))
+                );
+              },
+              icon: Icon(Icons.insert_chart)
           ),
         ],
       ),
