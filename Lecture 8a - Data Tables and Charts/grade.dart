@@ -8,3 +8,14 @@ class Grade{
     return 'Grade($sid,$grade)';
   }
 }
+
+class GradeFrequency{
+  String? grade;
+  int? frequency;
+
+  GradeFrequency({this.grade, this.frequency});
+
+  String toString(){
+    return 'GradeFrequency($grade,$frequency)';
+  }
+}
