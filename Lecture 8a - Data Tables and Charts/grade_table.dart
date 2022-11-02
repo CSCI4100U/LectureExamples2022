@@ -11,6 +11,7 @@ class GradesTable extends StatefulWidget {
 class _GradesTableState extends State<GradesTable> {
   List<Grade>? _grades;
   List? _selectedGrades;
+  Grade? _editingGrade;
 
   @override
   void initState(){
@@ -49,6 +50,20 @@ class _GradesTableState extends State<GradesTable> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Grades Table"),
+        actions: [
+          IconButton(
+              onPressed: (){
+                setState(() {
+                  _selectedGrades!.forEach(
+                          (element) {
+                            _grades!.remove(element);
+                          }
+                  );
+                });
+              },
+              icon: Icon(Icons.delete)
+          ),
+        ],
       ),
       body: DataTable(
         columns: [
@@ -69,7 +84,24 @@ class _GradesTableState extends State<GradesTable> {
                     },
                     cells: [
                       DataCell(Text(grade.sid!.toString())),
-                      DataCell(Text(grade.grade!.toString())),
+                      DataCell(_editingGrade != null && _editingGrade == grade ?
+                          TextField(
+                            controller: TextEditingController(text: grade.grade),
+                            onSubmitted: (value){
+                              setState(() {
+                                grade.grade = value;
+                                _editingGrade = null;
+                              });
+                            },
+                          ) :
+                          Text(grade.grade!.toString()),
+                        showEditIcon: true,
+                        onTap: (){
+                          setState(() {
+                            _editingGrade = grade;
+                          });
+                        }
+                      ),
                     ]
                 )
         )
