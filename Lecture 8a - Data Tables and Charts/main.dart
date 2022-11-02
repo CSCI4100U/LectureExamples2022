@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecture8a/paginated_grade_table.dart';
 
 import 'grade_table.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: GradesTable(),
+      home: PaginatedGradeTable(),
     );
   }
 }

@@ -14,6 +14,9 @@ class _GradesTableState extends State<GradesTable> {
   List? _selectedGrades;
   Grade? _editingGrade;
 
+  int? _sortColumnIndex;
+  bool? _sortAscending;
+
   @override
   void initState(){
     super.initState();
@@ -43,6 +46,8 @@ class _GradesTableState extends State<GradesTable> {
     ];
 
     _selectedGrades = [];
+    _sortColumnIndex=0;
+    _sortAscending=true;
   }
 
 
@@ -77,9 +82,46 @@ class _GradesTableState extends State<GradesTable> {
         ],
       ),
       body: DataTable(
+        sortColumnIndex: _sortColumnIndex,
+        sortAscending: _sortAscending!,
         columns: [
-          DataColumn(label: Text("SID")),
-          DataColumn(label: Text("Grade")),
+          DataColumn(
+              label: Text("SID"),
+            tooltip: "Student ID",
+            numeric: true,
+            onSort: (index,ascending){
+                setState(() {
+                  _sortColumnIndex = index;
+                  _sortAscending = ascending;
+                  _grades!.sort(
+                      (a,b) {
+                        if (ascending){
+                          return a.sid!.compareTo(b.sid!);
+                        }
+                        return b.sid!.compareTo(a.sid!);
+                      }
+                  );
+                });
+            }
+          ),
+          DataColumn(
+              label: Text("Grade"),
+              tooltip: "Letter Grade ID",
+              onSort: (index,ascending){
+                setState(() {
+                  _sortColumnIndex = index;
+                  _sortAscending = ascending;
+                  _grades!.sort(
+                          (a,b) {
+                        if (ascending){
+                          return a.grade!.compareTo(b.grade!);
+                        }
+                        return b.grade!.compareTo(a.grade!);
+                      }
+                  );
+                });
+              }
+          ),
         ],
         rows: _grades!.map(
                 (Grade grade) => DataRow(
