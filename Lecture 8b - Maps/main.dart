@@ -79,6 +79,76 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: 2,
+              height: MediaQuery.of(context).size.height*0.3,
+              child: PageView.builder(
+                  itemCount: mapMarkers.length,
+                  itemBuilder: (context, index){
+                    var item = mapMarkers[index];
+                    return Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        color: const Color.fromARGB(255, 30, 29, 29),
+                        child: Row(
+                          children: [
+                            const SizedBox(width:10),
+                            Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded( //Put in gold stars for restaurant
+                                        child: ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: item.rating,
+                                          itemBuilder: (context, index){
+                                            return Icon(Icons.star, color: Colors.yellow,);
+                                          },
+                                        ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.title ?? '',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                    ),
+                                  ],
+                                ),
+                            ),
+                            const SizedBox(width: 10,),
+                            Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(mapMarkers[index].image),
+                                  ),
+                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+              ),
+          ),
         ],
       ),
     );
