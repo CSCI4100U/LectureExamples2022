@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lec9/persons/person_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: PersonList(title: "Person List",),
       //home: const MyHomePage(title: 'Chorganizer Home Page'),
     );
   }
