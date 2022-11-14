@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lec9/persons/person_list.dart';
 
+import 'chores/add_chore.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PersonList(title: "Person List",),
+      home: AddChore(),
+      //home: PersonList(title: "Person List",),
       //home: const MyHomePage(title: 'Chorganizer Home Page'),
     );
   }

@@ -1,0 +1,1 @@
+Please note: Unfortunately, I wasn't able to figure out the bug with the code we wrote in class. To make sure you still have access to working solution, I have posted one next to the code from the video. Apologies for the inconvenience! Let me know if you have any questions about something in the project, and definitely let me know if you are able to figure out what went wrong :)

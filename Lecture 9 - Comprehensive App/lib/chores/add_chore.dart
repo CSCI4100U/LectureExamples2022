@@ -89,6 +89,33 @@ class _AddChoreFormState extends State<AddChoreForm> {
                 },
               ),
             ),
+            Container(
+              padding: EdgeInsets.only(top:16),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  hint: Text("Assigned To:"),
+                  value: _chore.assignedTo,
+                  // onChanged: (String? value) {
+                  //   setState(() {
+                  //     _chore.assignedTo = value;
+                  //   });
+                  // },
+                  onChanged: (String? value) => setState(() {
+                    _chore.assignedTo = value;
+                  }),
+                  items:
+                    _personNames.map<DropdownMenuItem<String>>(
+                        (String? value) {
+                          return DropdownMenuItem<String>(
+                              child: Text(value!),
+                            value: value,
+                          );
+                        }
+                    ).toList(),
+
+                ),
+              ),
+            ),
           ],
         ),
       ),
