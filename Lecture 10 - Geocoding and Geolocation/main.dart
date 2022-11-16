@@ -49,6 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
         }
     );
 
+    Geolocator.getPositionStream(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.best
+      ),
+    ).listen(_updateLocationStream);
+
 
     return Scaffold(
       appBar: AppBar(
@@ -73,11 +79,33 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _updateCurrentLocation,
+        onPressed: geocode,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  _updateLocationStream(Position userLocation) async{
+
+      _positionMessage = userLocation.latitude.toString() + ','
+          + userLocation.longitude.toString();
+      final List<Placemark> places = await placemarkFromCoordinates(
+          userLocation.latitude,
+          userLocation.longitude
+      );
+      setState(() {
+        _descriptionMessage = '${[places[0]]}';
+    });
+  }
+
+  geocode() async{
+    String address = '301 Front St W, Toronto, ON';
+    final List<Location> locations = await locationFromAddress(address);
+    setState(() {
+      _positionMessage = locations[0].latitude.toString() + ','
+          + locations[0].longitude.toString();
+    });
   }
 
   _updateCurrentLocation() async{
