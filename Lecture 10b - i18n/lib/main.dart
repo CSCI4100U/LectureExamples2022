@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'i18n Home Page'),
+      home: MyHomePage(),
       localizationsDelegates: [
         FlutterI18nDelegate(
           missingTranslationHandler: (key,locale){
@@ -27,26 +27,25 @@ class MyApp extends StatelessWidget {
         translationLoader: FileTranslationLoader(
           useCountryCode: false,
           fallbackFile: 'en',
-          basePath: 'assets/i18n/'
+          basePath: 'assets/i18n'
           ),
         ),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: [
-        Locale('en', ''),
-        Locale('fr', ''),
-        Locale('es', ''),
+        Locale('en'),
+        Locale('fr'),
+        Locale('es'),
       ],
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
 
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -66,9 +65,11 @@ int _num_of_attempts = 0;
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(FlutterI18n.translate(context, "home.page")),
         actions: [
-          TextButton(
+          SizedBox(
+            width: 40,
+            child: TextButton(
               style: TextButton.styleFrom(primary: Colors.white),
               onPressed: () async {
                 Locale newLocale = Locale('en');
@@ -78,30 +79,38 @@ int _num_of_attempts = 0;
                 });
               },
               child: Text("EN"),
+            ),
           ),
 
-          TextButton(
-            style: TextButton.styleFrom(primary: Colors.white),
-            onPressed: () async {
-              Locale newLocale = Locale('fr');
-              await FlutterI18n.refresh(context, newLocale);
-              setState(() {
 
-              });
-            },
-            child: Text("FR"),
+          SizedBox(
+            width: 40,
+            child: TextButton(
+              style: TextButton.styleFrom(primary: Colors.white),
+              onPressed: () async {
+                Locale newLocale = Locale('fr');
+                await FlutterI18n.refresh(context, newLocale);
+                setState(() {
+
+                });
+              },
+              child: Text("FR"),
+            ),
           ),
 
-          TextButton(
-            style: TextButton.styleFrom(primary: Colors.white),
-            onPressed: () async {
-              Locale newLocale = Locale('es');
-              await FlutterI18n.refresh(context, newLocale);
-              setState(() {
+          SizedBox(
+            width: 40,
+            child: TextButton(
+              style: TextButton.styleFrom(primary: Colors.white),
+              onPressed: () async {
+                Locale newLocale = Locale('es');
+                await FlutterI18n.refresh(context, newLocale);
+                setState(() {
 
-              });
-            },
-            child: Text("ES"),
+                });
+              },
+              child: Text("ES"),
+            ),
           ),
 
         ],
@@ -111,14 +120,17 @@ int _num_of_attempts = 0;
           ListTile(
             title: Text(
               _validLogin == null ? ''
-                  : _validLogin! ? "login.success" : "login.failure"
+                  : _validLogin!
+                  ? FlutterI18n.translate(context,"login.success",
+                  translationParams: {"username": _username ?? ''})
+                  : FlutterI18n.translate(context,"login.failure")
             ),
           ),
           ListTile(
-            title: Text(_num_of_attempts.toString()),
+            title: I18nPlural("login.num_attempts", _num_of_attempts),
           ),
           ListTile(
-            leading: Text("login.username"),
+            leading: Text(FlutterI18n.translate(context,"login.username")),
             title: TextField(
               controller: TextEditingController(text: _username),
               onChanged: (newValue){
@@ -127,7 +139,7 @@ int _num_of_attempts = 0;
             ),
           ),
           ListTile(
-            leading: Text("login.password"),
+            leading: Text(FlutterI18n.translate(context,"login.password")),
             title: TextField(
               controller: TextEditingController(text: _username),
               onChanged: (newValue){
@@ -137,7 +149,7 @@ int _num_of_attempts = 0;
           ),
           ListTile(
             title: TextButton(
-              child: Text("login.login"),
+              child: Text(FlutterI18n.translate(context,"login.login")),
               onPressed: (){
                 if (_username == 'admin' && _password == '12345'){
                   setState(() {

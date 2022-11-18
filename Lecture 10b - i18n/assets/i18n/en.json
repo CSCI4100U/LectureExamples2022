@@ -8,5 +8,8 @@
     "num_attempts-2": "{attempts} failed attempts",
     "password": "Password",
     "login": "Log In"
+  },
+  "home": {
+    "page": "i18n Home Page"
   }
 }
