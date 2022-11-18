@@ -1,0 +1,12 @@
+{
+  "login": {
+    "success": "Login successful, {username}",
+    "failure": "Login incorrect",
+    "username": "Username: ",
+    "num_attempts-0": "{attempts} failed attempts",
+    "num_attempts-1": "{attempts} failed attempt",
+    "num_attempts-2": "{attempts} failed attempts",
+    "password": "Password",
+    "login": "Log In"
+  }
+}

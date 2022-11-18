@@ -1,0 +1,12 @@
+{
+  "login": {
+    "success": "Connexion réussie, {username}",
+    "failure": "Échec de la connexion",
+    "username": "Nom d'utilisateur: ",
+    "num_attempts-0": "{attempts} tentatives infructeueses",
+    "num_attempts-1": "{attempts} tentative infructeuese",
+    "num_attempts-2": "{attempts} tentatives infructeueses",
+    "password": "Mot de passe",
+    "login": "Connecte"
+  }
+}
